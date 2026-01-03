@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "twitch-control",
+  "version": "1.0.0",
+  "description": "Control player play/pause on twitch.tv by pressing Space key.",
+
+  "action": {
+    "default_popup": "src/popup/index.html"
+  },
+  "permissions": ["scripting"],
+  "content_scripts": [
+    {
+      "js": ["src/content.ts"],
+      "matches": ["*://*.twitch.tv/*"]
+    }
+  ]
+}
