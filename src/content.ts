@@ -1,6 +1,12 @@
+import { debounce } from "es-toolkit/function";
+
+const debounced = debounce((cb: () => void) => {
+  cb();
+}, 300);
+
 function isBody(el: HTMLElement) {
   return el.tagName === "BODY";
-};
+}
 
 function isTwitchInput(el: HTMLElement) {
   return (
@@ -11,7 +17,13 @@ function isTwitchInput(el: HTMLElement) {
     el.dataset.testSelector === "chat-input" ||
     el.classList.contains("chat-wysiwyg-input__editor")
   );
-};
+}
+
+function dispatchPlayPause() {
+  const video = document.querySelector("video");
+
+  video?.paused ? video.play() : video?.pause();
+}
 
 function forceControlSpaceKeyPress() {
   document.addEventListener("keydown", (event) => {
@@ -21,14 +33,46 @@ function forceControlSpaceKeyPress() {
         target.blur();
         document.body.focus();
       }
-      dispatchEvent(new KeyboardEvent("keypress", { code: "KeyK" }));
+      dispatchPlayPause();
     }
   });
+}
+
+function forcePlayOnPlayerClick() {
+  let clickCount = 0;
+  let debouncedClickCount = 0;
+
+  function resetCounts() {
+    clickCount = 0;
+    debouncedClickCount = 0;
+  }
+
+  function handleClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (target.closest('[data-a-target="player-overlay-click-handler"]')) {
+      clickCount++;
+
+      debounced(() => {
+        debouncedClickCount++;
+
+        if (clickCount > debouncedClickCount) {
+          resetCounts();
+          return;
+        }
+
+        dispatchPlayPause();
+        resetCounts();
+      });
+    }
+  }
+
+  document.addEventListener("click", handleClick);
 }
 
 function main() {
   console.log("twitch-control enabled");
   forceControlSpaceKeyPress();
+  forcePlayOnPlayerClick();
 }
 
 main();

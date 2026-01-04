@@ -1,17 +1,18 @@
 {
   "name": "twitch-control",
+  "version": "0.0.2",
+  "devDependencies": {
+    "es-toolkit": "^1.43.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vite-plugin-web-extension": "^4.5.0"
+  },
   "private": true,
-  "version": "0.0.1",
-  "type": "module",
   "scripts": {
     "dev": "vite dev",
     "dev:build": "rm -rf dist && vite build --watch --mode development",
     "build": "tsc && vite build",
     "zip": "zip -r build.zip dist/"
   },
-  "devDependencies": {
-    "typescript": "^5.9.3",
-    "vite": "^7.3.0",
-    "vite-plugin-web-extension": "^4.5.0"
-  }
+  "type": "module"
 }
