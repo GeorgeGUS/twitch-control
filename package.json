@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "dev:build": "vite build --watch --mode development",
+    "dev:build": "rm -rf dist && vite build --watch --mode development",
     "build": "tsc && vite build",
     "zip": "zip -r build.zip dist/"
   },

@@ -4,6 +4,9 @@ function isBody(el: HTMLElement) {
 
 function isTwitchInput(el: HTMLElement) {
   return (
+    el.tagName === "INPUT" ||
+    el.tagName === "TEXTAREA" ||
+    el.dataset.aTarget === "tw-input" ||
     el.dataset.aTarget === "chat-input" ||
     el.dataset.testSelector === "chat-input" ||
     el.classList.contains("chat-wysiwyg-input__editor")
