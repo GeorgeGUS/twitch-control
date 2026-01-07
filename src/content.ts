@@ -4,11 +4,15 @@ const debounced = debounce((cb: () => void) => {
   cb();
 }, 300);
 
+function isSpaceKey(event: KeyboardEvent) {
+  return event.code === "Space" || event.key === " ";
+}
+
 function isBody(el: HTMLElement) {
   return el.tagName === "BODY";
 }
 
-function isTwitchInput(el: HTMLElement) {
+function isInput(el: HTMLElement) {
   return (
     el.tagName === "INPUT" ||
     el.tagName === "TEXTAREA" ||
@@ -28,11 +32,9 @@ function dispatchPlayPause() {
 function forceControlSpaceKeyPress() {
   document.addEventListener("keydown", (event) => {
     const target = event.target as HTMLElement;
-    if (event.code === "Space") {
-      if (!isBody(target) && !isTwitchInput(target)) {
-        target.blur();
-        document.body.focus();
-      }
+    if (isSpaceKey(event) && !isBody(target) && !isInput(target)) {
+      target.blur();
+      document.body.focus();
       dispatchPlayPause();
     }
   });
